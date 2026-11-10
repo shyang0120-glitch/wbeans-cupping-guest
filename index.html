@@ -132,7 +132,16 @@
   .mk-hl{box-shadow:0 0 0 3px rgba(220,38,38,.45);animation:mkp 1.4s ease-in-out infinite}
   @keyframes mkp{50%{box-shadow:0 0 0 6px rgba(220,38,38,.12)}}
   .manbtns{display:flex;gap:8px;margin-top:14px}
-  #r-sheet,#btn-sync,#jc-out,#btn-logout{display:none!important}
+  /* LANGSW */
+  .langsw{display:inline-flex;flex:none;margin-right:8px;border:1.5px solid var(--accent);border-radius:999px;overflow:hidden}
+  .langsw button{padding:3px 10px;font-size:12px;font-weight:800;color:var(--accent);background:transparent}
+  .langsw button.on{background:var(--accent);color:var(--on-accent)}
+  @media(max-width:430px){#synced{display:none}}
+  #r-sheet,#btn-sync,#jc-out,#btn-logout,.dbtn{display:none!important}
+  .iconbtn{flex:none;width:30px;height:30px;margin-left:8px;border-radius:50%;background:rgba(255,255,255,.24);color:#fff;font-size:15px;line-height:30px;text-align:center;cursor:pointer}
+  .who b{overflow:visible!important;text-overflow:clip!important;white-space:normal!important;word-break:break-all}
+  .mx .mn{white-space:normal!important;word-break:break-all;overflow:visible!important;text-overflow:clip!important;width:auto!important;min-width:68px;max-width:120px}
+  .chip{white-space:normal;word-break:break-all}
   #r-sheet{margin-left:auto;padding:6px 12px;font-weight:800;border:1.5px solid var(--accent);color:var(--accent);background:var(--surface);box-shadow:none;white-space:nowrap;flex:none}
   #r-sheet[disabled]{opacity:.55}
   #s-list .bar #btn-results{flex:none;white-space:nowrap}
@@ -901,6 +910,209 @@
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#101a3a;color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:40;max-width:90vw;text-align:center}
   .toast.show{opacity:1}
 </style>
+<script>try{var __L=localStorage.getItem("wbeans_lang");window.__LANG__=(__L==="zh"||__L==="ko")?__L:(/^zh/i.test(navigator.language||"")?"zh":"ko");}catch(e){window.__LANG__="ko";}</script>
+<script>
+/* 简体中文(访客页) 翻译层 — 한국어 화면 문구를 DOM 에 쓰이는 순간 중국어 간체로 바꿉니다.
+ * 저장값(판정·노트 이름 등)은 그대로 두고 "보이는 글자"만 바꿉니다. 사용자가 직접 쓴 글(메모 등)은
+ * 사전에 전부 들어맞을 때만 바뀌므로 손대지 않습니다. */
+(function () {
+  "use strict";
+  if (window.__LANG__ !== "zh") return;          /* 중국어를 고른 경우에만 동작 */
+  document.documentElement.setAttribute("lang", "zh-Hans");
+  var HANGUL = /[가-힣]/;
+  /* 한 글자·짧은 말: 문자열 전체가 정확히 같을 때만 */
+  var ONLY = {
+    "님": "", "나": "我", "컵": "杯", "점": "分", "명": "人", "개": "个", "건": "项", "향": "香气", "색": "颜色", "예": "例",
+    "일": "日", "월": "一", "화": "二", "수": "三", "목": "四", "금": "五", "토": "六"
+  };
+  /* 문장·단어: 정확히 같거나, 사전 단어로 문자열이 완전히 덮일 때 */
+  var EX = {
+    /* ── 화면 이름·버튼 ── */
+    "WBeans 커핑 · 게스트": "WBeans 杯测 · 访客",
+    "☕ 커핑": "☕ 杯测", "커핑 날짜 바꾸기": "更改杯测日期", "커핑 날짜 홈으로": "返回杯测日期首页", "커핑 결과": "杯测结果",
+    "연결 중": "连接中", "재연결 중": "重新连接中", "입장 중이에요": "正在进入", "입장 중": "正在进入",
+    "참여": "参加", "참여 취소": "取消参加", "관리자": "管理员", "닫기": "关闭", "저장": "保存", "취소": "取消", "추가": "添加", "완료": "完成",
+    "확인": "确认", "선택": "选择", "삭제": "删除", "뒤로": "返回", "오늘": "今天", "이전 달": "上个月", "다음 달": "下个月", "다음": "下一个", "이전": "上一个", "목록": "列表",
+    "이름 바꾸기": "修改昵称", "새 이름": "新昵称", "새 이름 (12자까지)": "新昵称（最多12个字）", "자까지": "个字以内",
+    "커핑 품목": "杯测样品", "순서 편집": "调整顺序", "편집 끝": "完成调整", "품목 추가": "添加样品", "품목 추가 (관리자)": "添加样品（管理员）",
+    "이 품목 삭제 (관리자)": "删除此样品（管理员）", "이 품목 삭제": "删除此样品", "예) 브라질 산토스 NY2": "例) 巴西 桑托斯 NY2",
+    "눌러서 다른 품목으로 바꾸기": "点击切换其他样品", "커핑 품목 바꾸기": "切换杯测样品", "위아래로 돌려서 품목을 바꿔요": "上下滑动切换样品",
+    "위아래로 돌려서 품목을 바꿔요 · 지금 품목은 자동 저장돼요": "上下滑动切换样品 · 当前样品会自动保存",
+    "품목": "样品", "품목명": "样品名称", "이전 품목": "上一个样品", "다음 품목": "下一个样品", "◀ 품목": "◀ 样品", "품목 ▶": "样品 ▶",
+    "마지막 품목이에요": "已是最后一个样品", "첫 품목이에요": "已是第一个样品",
+    "노트": "风味", "플레이버 노트": "风味笔记", "커퍼 노트": "杯测师笔记", "내 노트": "我的笔记", "내 노트·메모": "我的笔记·备注", "노트 추가": "添加风味",
+    "선택한 노트": "已选风味", "고른 노트가 여기에 쌓입니다": "所选风味会显示在这里", "노트 이름": "风味名称", "예) 수박바": "例) 西瓜冰棒",
+    "＋ 내 노트 (1회용)": "＋ 我的风味（仅限一次）", "나만의 노트 만들기": "创建我的专属风味",
+    "이 품목의 내 노트에만 붙는 1회용이에요. 다른 사람에게는 보이지 않아요": "仅用于此样品上我自己的笔记（一次性），其他人看不到。",
+    "어느 계열 색으로 할까요?": "归入哪个风味大类（颜色）？", "어느 계열 색으로 할까요": "归入哪个风味大类（颜色）",
+    "왼쪽·오른쪽 계열을 눌러": "请点击左右两侧的风味大类", "세부 노트를 고르세요": "再选择具体风味", "큰 계열을 눌러보세요 · 가운데 동그라미는 원형 휠로 열려요": "请点击大类 · 中间的圆圈可展开为圆形风味轮",
+    "그룹을 눌러 노트를 고르세요": "点击分组选择风味", "노트를 눌러 선택 · 빈 곳 터치 = 처음으로": "点击风味进行选择 · 点击空白处 = 返回起点",
+    "＋ 플레이버 휠에서 노트 고르기": "＋ 从风味轮选择风味", "처음으로": "返回起点",
+    "눌러서 향미 노트를 골라보세요": "点击选择风味笔记", "선택한 노트가 없어요": "尚未选择风味",
+    "내 기록만 고칠 수 있어요 · 점수와 디펙트는 그대로 유지돼요": "只能修改自己的记录 · 分数和缺陷保持不变",
+    "메모": "备注", "메모를 적어주세요": "请填写备注", "향미·결점 등 자유롭게 적어주세요": "可自由填写风味、缺陷等",
+    "커핑 점수": "杯测评分", "기준 점수": "基准分", "항목의 시작값 · 눌러서 따로 조정 (Uniformity·Clean Cup·Sweetness는 10점 고정 시작)": "各项的起始分 · 点击可单独调整（Uniformity·Clean Cup·Sweetness 固定从10分开始）",
+    "감점 (Defects)": "扣分 (Defects)", "감점": "扣分", "디펙트": "缺陷", "컵 줄이기": "减少杯数", "컵 늘리기": "增加杯数",
+    "컵을 눌러 디펙트를 고르세요 · 기본 Taint −2 / Fault 체크 시 −4 (컵당)": "点击杯子选择缺陷 · 默认 Taint −2 / 勾选 Fault 则 −4（每杯）",
+    "컵을 눌러 디펙트를 고르세요": "点击杯子选择缺陷", "기본 Taint −2 / Fault 체크 시 −4 (컵당)": "默认 Taint −2 / 勾选 Fault 则 −4（每杯）",
+    "점 · 컵을 눌러 디펙트로 바꿀 수 있어요": "分 · 点击杯子可改为缺陷", "이전에 저장된 감점": "之前保存的扣分",
+    "(디펙트 미선택)": "（未选择缺陷）", "해당 컵에서 느낀 디펙트를 고르세요 (여러 개 가능)": "请选择该杯中感受到的缺陷（可多选）", "해당 컵에서 느낀 디펙트를 고르세요": "请选择该杯中感受到的缺陷", "여러 개 가능": "可多选",
+    "컵당 −4점": "每杯 −4分", "컵당 −2점": "每杯 −2分", "켜지 않으면 Taint": "不勾选则为 Taint", "켜지 않으면 Taint · 컵당 −2점": "不勾选则为 Taint · 每杯 −2分",
+    "비우기": "清空", "컵당": "每杯", "켜지 않으면": "不勾选则",
+    "판정": "判定", "선택 안 함": "未选择", "오른쪽을 위아래로 끌어서 고르세요": "在右侧上下拖动进行选择",
+    "좋음": "良好", "보통": "一般", "주의": "注意", "심각": "严重", "PSS승인": "PSS通过", "승인": "通过", "대기": "待定",
+    "관능▲": "感官▲", "관능▼": "感官▼", "디펙트▲": "缺陷▲", "선호": "偏好", "관능": "感官",
+    "낮음": "低", "높음": "高", "평균": "平均", "전체 평균": "全体平均", "요일": "星期",
+    "자세히 보기": "查看详情",
+    /* ── 저장·상태 ── */
+    "저장 중": "保存中", "저장 중…": "保存中…", "자동 저장": "自动保存", "저장됨": "已保存", "저장했어요": "已保存", "저장했습니다": "已保存",
+    "저장 실패 · 다시 시도해요": "保存失败 · 请重试", "저장하지 못했어요 · 잠시 후 다시 해주세요": "未能保存 · 请稍后重试", "입력값은 임시저장됨": "输入内容已临时保存",
+    "변경됨 · 곧 자동 저장": "已更改 · 即将自动保存", "내 점수를 저장했어요": "已保存我的评分", "내 노트·메모를 저장했어요": "已保存我的笔记和备注", "최종 결과를 저장했어요": "已保存最终结果",
+    "요청에 실패했습니다": "请求失败", "네트워크가 불안정해요. 잠시 후 다시 시도해주세요": "网络不稳定，请稍后重试", "입장에 실패했어요": "进入失败", "입장 중이에요. 잠시 후 다시 눌러주세요": "正在进入，请稍后再点击",
+    "이미 있는 품목입니다": "该样品已存在", "품목을 추가했습니다": "已添加样品", "품목을 삭제했습니다": "已删除样品", "품목명을 입력해주세요": "请输入样品名称",
+    "참여했습니다": "已参加", "참여를 취소했습니다": "已取消参加", "되돌릴 내용이 없어요": "没有可撤销的内容",
+    "노트 이름을 입력해주세요": "请输入风味名称", "새 이름을 입력해주세요": "请输入新昵称", "닉네임을 입력해주세요": "请输入昵称", "내 노트를 만들었어요": "已创建我的风味",
+    "먼저 지울 칸에 한 번 써주세요": "请先在要擦除的格子里写一下", "그림이 너무 커요. 일부를 지워주세요": "图画太大了，请擦掉一部分",
+    "결과 요약을 복사했어요": "已复制结果摘要", "복사에 실패했어요": "复制失败", "공유를 지원하지 않는 환경이에요": "当前环境不支持分享",
+    /* ── 목록 ── */
+    "오늘 참여": "今日参加", "아직 참여자가 없습니다": "还没有人参加", "내 입력": "我的输入", "참여자": "参与者",
+    "이 날짜의 커핑 품목이 없습니다": "这一天没有杯测样品", "아직 커핑 품목이 없어요. 진행자가 추가하면 여기에 나타납니다": "还没有杯测样品，主持人添加后会显示在这里",
+    "아직 다른 사람의 노트가 없습니다": "还没有其他人的笔记", "이 품목은 아직 아무도 입력하지 않았어요": "这个样品还没有人填写",
+    "데이터": "数据", "노트/코멘트": "笔记/评语", "기록 없음": "无记录", "점수 미완": "评分未完成", "입력 전": "未输入", "값 미입력": "未输入数值",
+    /* ── 결과 화면 ── */
+    "개인 점수 비교표": "个人评分对比表", "인원별 점수 비교표": "按人员评分对比表", "결과 메모": "结果备忘", "확장(가로 전체 화면)": "放大（横向全屏）", "가로 전체 화면": "横向全屏",
+    "가로로 보기": "横屏查看", "세로로 보기": "竖屏查看", "폰을 가로로 돌린 것처럼 한눈에 보기": "像手机横屏一样一目了然地查看", "위 버튼을 눌러 결과를 확인하세요": "点击上方按钮查看结果",
+    "최종 결과": "最终结果", "이 품목의 최종 커핑 결과를 적어주세요": "请填写该样品的最终杯测结果", "최종 결과를 입력하고 저장하세요": "请填写并保存最终结果", "입장하면 최종 결과를 쓸 수 있어요": "进入后即可填写最终结果",
+    "입장하면 내 메모를 쓸 수 있어요": "进入后即可填写我的备注", "보기 전용": "仅查看", "님의 메모": "的备注",
+    "NO. / 품목": "NO. / 样品", "구분": "类别", "총점": "总分", "참여자 기준 건수": "按参与者计数", "순서대로": "按顺序", "총점 높은 순": "总分从高到低", "총점 낮은 순": "总分从低到高", "공유": "分享",
+    "이 날짜의 커핑 품목이 없습니다.": "这一天没有杯测样品。",
+    "오른쪽 ✎ 를 누르면 최종 결과를 입력/확인해요": "点击右侧 ✎ 可填写/查看最终结果",
+    "한 손가락은 쓰기, 두 손가락은 위아래 이동, 벌리면 확대 · 메모는 관리자별로 따로 저장돼요": "单指书写，双指上下移动，张开可放大 · 备注按管理员分别保存",
+    "✏️ 펜": "✏️ 画笔", "T 글씨": "T 文字", "도장": "印章", "지우개": "橡皮", "↶ 되돌리기": "↶ 撤销", "✎ 수정": "✎ 修改", "✕ 닫기": "✕ 关闭", "지우개 크기": "橡皮大小", "맞춤": "适应", "축소": "缩小", "확대": "放大",
+    "글씨": "文字", "색": "颜色", "색 고르기": "选择颜色", "글씨를 누르면 내용 수정 · 글씨·도장을 끌면 위치 이동": "点击文字可修改 · 拖动文字/印章可移动位置",
+    /* ── 날짜·달력 ── */
+    "일": "日",
+    /* ── 요약 문장 ── */
+    "점수 미완)": "评分未完成)", "뚜렷한 결점 언급은 없어요": "没有明显的缺陷提及", "자주 나온 노트 상위": "高频风味前", "이 있어요": "",
+    "부정 노트": "负面风味", "디펙트 기록": "缺陷记录", "강도": "强度", "산미": "酸质", "바디": "醇厚度", "품질": "品质", "총평": "总评", "기본 정보": "基本信息", "생두 정보": "生豆信息", "수분": "水分", "밀도": "密度", "활성도": "水活性", "수분활성도": "水活性", "결점": "缺陷", "날짜": "日期",
+    "풀디펙트": "全缺陷", "그레이딩 대기 중": "等待分级", "값 미입력)": "未输入数值)",
+    /* ── 디펙트(컵별) ── */
+    "시큼": "酸味", "흙냄새": "泥土味", "곰팡이": "霉味", "종이": "纸味", "나무": "木质味", "묵은": "陈旧味", "재": "灰味", "풋내": "青草味", "발효": "发酵味", "페놀": "酚味", "리오이": "瑞奥味", "고무": "橡胶味", "약품": "药味", "눅눅한 곰팡내": "霉腐味", "썩은": "腐败味", "탄": "焦味",
+    "이물": "异物", "벌레(severe)": "虫蛀(严重)", "벌레(slight)": "虫蛀(轻微)", "벌레": "虫蛀", "(F)블랙": "(F)全黑豆", "(F)발효": "(F)全酸豆", "(P)블랙": "(P)部分黑豆", "(P)발효": "(P)部分酸豆", "파치먼트": "带壳豆", "백화": "漂白豆", "미성숙": "未熟豆", "주름콩": "皱缩豆", "쉘": "贝壳豆", "브로큰": "破碎豆",
+    /* ── 값 표시 ── */
+    "위로": "向上", "아래로": "向下", "위로 올리면 6점까지": "向上调整最低到6分", "10점으로": "设为10分", "기준값으로": "恢复基准值", "기준 점수와 무관": "与基准分无关",
+    "2점 단위 · 10~0 (기준 점수와 무관)": "以2分为单位 · 10~0（与基准分无关）", "점 단위": "分为单位",
+    "따로 바꾸지 않은 모든 항목에 적용돼요 · 기본 7점 (위로 올리면 6점까지)": "适用于所有未单独修改的项目 · 默认7分（向上调整最低可到6分）",
+    "따로 바꾸지 않은 모든 항목에 적용돼요 · 기본 7점": "适用于所有未单独修改的项目 · 默认7分",
+    "위아래로 돌려서 선택 · 기준": "上下滑动选择 · 基准", "위아래로 돌려서 선택": "上下滑动选择",
+    /* ── 서버 메시지(손님이 볼 수 있는 것) ── */
+    "이름을 입력해주세요": "请输入名字", "이미 쓰고 있는 이름이에요": "该昵称已被使用", "먼저 입장해주세요. 새로고침해 주세요": "请先进入，并刷新页面", "입장 정보가 올바르지 않아요. 새로고침해 주세요": "进入信息有误，请刷新页面",
+    "참가자 수 한도를 넘었습니다": "已超过参与人数上限", "참여자 수 한도를 넘었습니다": "已超过参与人数上限", "품목 수 한도를 넘었습니다": "已超过样品数量上限", "날짜 형식이 올바르지 않습니다": "日期格式不正确",
+    "품목 추가는 관리자만 할 수 있어요": "只有管理员可以添加样品", "품목 삭제는 관리자만 할 수 있어요": "只有管理员可以删除样品", "관리자만 할 수 있어요": "只有管理员可以操作",
+    "저장할 커핑 노트가 없습니다": "没有可保存的杯测笔记", "품목이 없습니다": "没有样品", "요청 형식이 올바르지 않습니다": "请求格式不正确", "알 수 없는 요청입니다": "未知请求",
+    "결과 메모는 참여 코드를 입력한 뒤에 저장할 수 있어요": "请先进入后再保存结果备忘", "저장할 내용이 없습니다": "没有可保存的内容", "그림 형식이 올바르지 않아요": "图画格式不正确", "그림이 너무 커요. 일부를 지우고 다시 저장해주세요": "图画太大了，请擦掉一部分后重新保存",
+    "게스트용 버전은 커핑시트 기록을 하지 않아요": "访客版不记录到杯测表",
+    "으로 입장했어요": " 已进入", "이름 옆 ✎ 로 바꿀 수 있어요": "可点击昵称旁的 ✎ 修改昵称", "확장": "放大",
+    "UNI·CLN·SWT 30점은 총점에 포함돼요 · 밑줄 친 내 점수를 누르면 돌려서 바꿀 수 있어요": "UNI·CLN·SWT 的30分已计入总分 · 点击带下划线的我的分数，可滑动修改",
+    "UNI·CLN·SWT 30점은 총점에 포함돼요": "UNI·CLN·SWT 的30分已计入总分", "밑줄 친 내 점수를 누르면 돌려서 바꿀 수 있어요": "点击带下划线的我的分数，可滑动修改",
+    "계열이 두드러지고": "类风味突出", "노트가 많이 언급됨": "等风味被多次提及", "(참여자 기준 건수)": "（按参与者计数）",
+    "(나)": "（我）", "나": "我"
+  };
+  var WK = { "일": "日", "월": "一", "화": "二", "수": "三", "목": "四", "금": "五", "토": "六" };
+  /* 숫자가 끼는 문구(전부 전역 치환 → 마지막에 한글이 남지 않으면 채택) */
+  var RULES = [
+    [/(\d{4})년 (\d{1,2})월/g, "$1年$2月"],
+    [/(\d{1,2})월 (\d{1,2})일/g, "$1月$2日"],
+    [/\(([일월화수목금토])\)/g, function (m, d) { return "(周" + WK[d] + ")"; }],
+    [/([일월화수목금토])요일/g, function (m, d) { return "星期" + WK[d]; }],
+    [/참가자\s*(\d+)/g, "参与者 $1"],
+    [/오늘 참여 (\d+)명/g, "今日参加 $1人"],
+    [/내 입력 (\d+) \/ (\d+)/g, "我的输入 $1 / $2"],
+    [/선택한 노트 (\d+)개/g, "已选风味 $1个"],
+    [/(\d+)개 · 눌러서 수정/g, "$1个 · 点击修改"],
+    [/커퍼 노트 · (\d+)명/g, "杯测师笔记 · $1人"],
+    [/컵 (\d+) 디펙트/g, "第$1杯缺陷"],
+    [/컵\s*(\d)/g, "第$1杯"],
+    [/자동 저장 (\d{2}:\d{2}:\d{2})/g, "自动保存 $1"], [/저장됨 (\d{2}:\d{2}:\d{2})/g, "已保存 $1"],
+    [/(\d+(?:\.\d+)?)점/g, "$1分"], [/(\d+)명 참여/g, "$1人参加"], [/(\d+)명/g, "$1人"], [/(\d+)개/g, "$1个"], [/(\d+)건/g, "$1项"],
+    [/(\d+)컵/g, "$1杯"],
+    [/평균 \(/g, "平均 ("], [/전체 평균/g, "全体平均"],
+    [/수분 (\d)/g, "水分 $1"], [/밀도 (\d)/g, "密度 $1"], [/수분활성도 (\d)/g, "水活性 $1"], [/결점 (\d)/g, "缺陷 $1"],
+    [/\(나\)/g, "（我）"]
+  ];
+  var KEYS = Object.keys(EX).filter(function (k) { return k.length >= 2 && !/^[ -~]+$/.test(k); }).sort(function (a, b) { return b.length - a.length; });
+  var cache = Object.create(null);
+  function normKey(s) { return s.replace(/[\s.!…。]+$/g, ""); }
+  function full(core) {
+    if (cache[core] !== undefined) return cache[core];
+    var out = null, k = normKey(core);
+    if (Object.prototype.hasOwnProperty.call(EX, core)) out = EX[core];
+    else if (Object.prototype.hasOwnProperty.call(EX, k)) out = EX[k] + (/[.!]$/.test(core) ? (/[!]$/.test(core) ? "！" : "。") : "");
+    else if (Object.prototype.hasOwnProperty.call(ONLY, core)) out = ONLY[core];
+    else {
+      var s = core;
+      RULES.forEach(function (r) { s = s.replace(r[0], r[1]); });
+      if (HANGUL.test(s)) {
+        for (var i = 0; i < KEYS.length && HANGUL.test(s); i++) { if (s.indexOf(KEYS[i]) >= 0) s = s.split(KEYS[i]).join(EX[KEYS[i]]); }
+      }
+      out = HANGUL.test(s) ? null : s;
+    }
+    cache[core] = out; return out;
+  }
+  function trStr(s) {
+    if (!s || !HANGUL.test(s)) return s;
+    var lead = (s.match(/^\s*/) || [""])[0], trail = (s.match(/\s*$/) || [""])[0], core = s.trim();
+    var pm = /^([^\p{L}\p{N}]*)([\s\S]*)$/u.exec(core), pre = pm ? pm[1] : "", rest = pm ? pm[2] : core;
+    var r = full(core);
+    if (r === null && pre) { r = full(rest); if (r !== null) r = pre + r; }
+    if (r === null) {                                   // " · " 로 이어진 말은 조각별로
+      var parts = (pre ? rest : core).split(/(\s·\s|·|\s{2,})/), ok = true, outp = [];
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        if (i % 2 === 1 || !p || !HANGUL.test(p)) { outp.push(i % 2 === 1 && /^\s*·\s*$/.test(p) ? " · " : p); continue; }
+        var t = full(p.trim()); if (t === null) { ok = false; break; } outp.push(t);
+      }
+      if (ok) r = pre + outp.join("");
+    }
+    return r === null ? s : lead + r + trail;
+  }
+  function trLoose(line) {
+    var t = trStr(line); if (t !== line && !HANGUL.test(t)) return t;
+    var x = line; RULES.forEach(function (r) { x = x.replace(r[0], r[1]); });
+    for (var i = 0; i < KEYS.length && HANGUL.test(x); i++) { if (x.indexOf(KEYS[i]) >= 0) x = x.split(KEYS[i]).join(EX[KEYS[i]]); }
+    return x;
+  }
+  function trText(txt) { return String(txt).split(String.fromCharCode(10)).map(trLoose).join(String.fromCharCode(10)); }
+  window.__trStr = trStr; window.__trText = trText;
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { var cw = navigator.clipboard.writeText.bind(navigator.clipboard); navigator.clipboard.writeText = function (t) { return cw(trText(t)); }; }
+    if (navigator.share) { var sh = navigator.share.bind(navigator); navigator.share = function (d) { d = Object.assign({}, d); if (d.text) d.text = trText(d.text); if (d.title) d.title = trStr(d.title); return sh(d); }; }
+  } catch (e) { /* 무시 */ }
+  var ATTRS = ["placeholder", "title", "aria-label", "alt"];
+  var SKIPT = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1 };
+  function doNode(n) {
+    if (n.nodeType === 3) { var p = n.parentNode; if (p && SKIPT[p.nodeName]) return; var v = n.nodeValue; if (v && HANGUL.test(v)) { var t = trStr(v); if (t !== v) n.nodeValue = t; } return; }
+    if (n.nodeType !== 1 || SKIPT[n.nodeName]) { if (n.nodeType === 1 && n.nodeName === "TEXTAREA") ATTRS.forEach(function (a) { fixAttr(n, a); }); return; }
+    ATTRS.forEach(function (a) { fixAttr(n, a); });
+    for (var c = n.firstChild; c; c = c.nextSibling) doNode(c);
+  }
+  function fixAttr(n, a) { var v = n.getAttribute && n.getAttribute(a); if (v && HANGUL.test(v)) { var t = trStr(v); if (t !== v) n.setAttribute(a, t); } }
+  var mo = new MutationObserver(function (list) {
+    for (var i = 0; i < list.length; i++) {
+      var m = list[i];
+      if (m.type === "childList") { for (var j = 0; j < m.addedNodes.length; j++) doNode(m.addedNodes[j]); }
+      else if (m.type === "characterData") doNode(m.target);
+      else if (m.type === "attributes") fixAttr(m.target, m.attributeName);
+    }
+  });
+  mo.observe(document, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS });
+  document.addEventListener("DOMContentLoaded", function () { doNode(document.documentElement); });
+  var oc = window.confirm, oa = window.alert;
+  window.confirm = function (m) { return oc.call(window, trStr(String(m))); };
+  window.alert = function (m) { return oa.call(window, trStr(String(m))); };
+})();
+
+</script>
 </head>
 <body>
 
@@ -910,6 +1122,7 @@
     <button class="datepill" id="l-pillw" aria-label="커핑 날짜 바꾸기"><span id="l-pill">☕ 커핑</span><input type="date" id="date" tabindex="-1" aria-hidden="true" style="display:none"></button>
     <button class="rbtn" id="btn-results">커핑 결과</button>
     <span class="sp"></span>
+    <span class="langsw" id="langsw"><button data-lang="ko">한국어</button><button data-lang="zh">中文</button></span>
     <button class="rbtn" id="r-main">매뉴얼</button>
     <span class="muted"><span class="live" id="live"></span><span id="synced">연결 중…</span></span>
   </div>
@@ -936,7 +1149,7 @@
     <div id="jc-in" hidden>
       <div class="row">
         <div class="who"><i>👤</i><b id="who-name"></b><span class="muted">님</span><span class="adminbadge" id="admin-badge" hidden>관리자</span></div>
-        <button class="linkbtn" id="btn-rename" style="margin-left:6px">✎ 이름 바꾸기</button>
+        <button class="iconbtn" id="btn-rename" aria-label="이름 바꾸기" title="이름 바꾸기">✎</button>
         <span class="sp" style="flex:1"></span>
         <button class="btn pri" id="btn-join">참여</button>
       </div>
@@ -1399,7 +1612,7 @@
     let doneCnt=0;
     const el=$("#list");
     if(!S.items.length){
-      el.innerHTML='<div class="empty">이 날짜의 커핑 품목이 없습니다.<br>일정에 품목이 있으면 “일정 새로고침”, 없으면 아래에서 추가하세요.</div>';
+      el.innerHTML='<div class="empty">아직 커핑 품목이 없어요.<br>진행자가 추가하면 여기에 나타납니다.</div>';
     } else {
       el.innerHTML=S.items.map((it,i)=>{
         const list=notesFor(it.item), mine=myNote(it.item), a=avg(list);
@@ -3367,10 +3580,10 @@
     if(entering) return; entering=true;
     if(!whoCode){ whoCode=newToken(); lsSet("wbeans_cupper_code",whoCode); }      // 토큰을 먼저 저장해 두면 응답이 늦어 새로고침해도 같은 사람으로 인식
     const tk=whoCode;
-    call("registerGuest",tk,HOST_KEY).then(r=>{
+    call("registerGuest",tk,HOST_KEY,window.__LANG__||"ko").then(r=>{
       setWho(r.nickname,tk,r.admin);
       if(!r.created) return load();
-      return call("joinCupping",S.date,r.nickname).then(()=>load()).then(()=>toast("👋 "+r.nickname+"으로 입장했어요 · ✎ 이름 바꾸기로 바꿀 수 있어요"));
+      return call("joinCupping",S.date,r.nickname).then(()=>load()).then(()=>toast("👋 "+r.nickname+"으로 입장했어요 · 이름 옆 ✎ 로 바꿀 수 있어요"));
     }).catch(e=>{ toast("⚠️ 입장에 실패했어요: "+errMsg(e)); }).then(()=>{ entering=false; });
   }
   $("#btn-rename").addEventListener("click",()=>{ const b=$("#rn-box"); b.hidden=!b.hidden; if(!b.hidden){ const i=$("#rn-input"); i.value=me(); i.focus(); i.select(); } });
@@ -3392,6 +3605,19 @@
   enter();
   document.addEventListener("visibilitychange",()=>{ if(!document.hidden) refreshWho(); });
   setInterval(()=>{ if(!document.hidden) refreshWho(); },300000);
+})();
+</script>
+<script>
+(function(){
+  var cur=window.__LANG__||"ko";
+  document.querySelectorAll("#langsw button").forEach(function(b){
+    if(b.getAttribute("data-lang")===cur) b.classList.add("on");
+    b.addEventListener("click",function(){
+      var l=b.getAttribute("data-lang"); if(l===cur) return;
+      try{localStorage.setItem("wbeans_lang",l);}catch(e){}
+      location.reload();
+    });
+  });
 })();
 </script>
 </body>

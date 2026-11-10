@@ -1017,6 +1017,7 @@
     "UNI·CLN·SWT 30점은 총점에 포함돼요": "UNI·CLN·SWT 的30分已计入总分", "밑줄 친 내 점수를 누르면 돌려서 바꿀 수 있어요": "点击带下划线的我的分数，可滑动修改",
     "계열이 두드러지고": "类风味突出", "노트가 많이 언급됨": "等风味被多次提及", "(참여자 기준 건수)": "（按参与者计数）",
     "자사 브라질 샘플": "自家巴西样品", "C&D 샘플": "C&D 样品",
+    "매뉴얼": "使用说明", "궁금한 걸 고르면 한 단계씩 알려드려요": "选择想了解的内容，我们会一步步说明", "처음이라면 눌러보세요 · 사용 방법을 하나씩 알려드려요": "第一次使用请点这里 · 逐步说明使用方法",
     "(나)": "（我）", "나": "我"
   };
   var WK = { "일": "日", "월": "一", "화": "二", "수": "三", "목": "四", "금": "五", "토": "六" };
@@ -1035,7 +1036,7 @@
     [/컵 (\d+) 디펙트/g, "第$1杯缺陷"],
     [/컵\s*(\d)/g, "第$1杯"],
     [/자동 저장 (\d{2}:\d{2}:\d{2})/g, "自动保存 $1"], [/저장됨 (\d{2}:\d{2}:\d{2})/g, "已保存 $1"],
-    [/(\d+(?:\.\d+)?)점/g, "$1分"], [/(\d+)명 참여/g, "$1人参加"], [/(\d+)명/g, "$1人"], [/(\d+)개/g, "$1个"], [/(\d+)건/g, "$1项"],
+    [/(\d+(?:\.\d+)?)점/g, "$1分"], [/(\d+)명 참여/g, "$1人参加"], [/(\d+)명/g, "$1人"], [/(\d+)단계/g, "$1步"], [/(\d+)개/g, "$1个"], [/(\d+)건/g, "$1项"],
     [/(\d+)컵/g, "$1杯"],
     [/평균 \(/g, "平均 ("], [/전체 평균/g, "全体平均"],
     [/수분 (\d)/g, "水分 $1"], [/밀도 (\d)/g, "密度 $1"], [/수분활성도 (\d)/g, "水活性 $1"], [/결점 (\d)/g, "缺陷 $1"],
@@ -1089,7 +1090,7 @@
     if (navigator.clipboard && navigator.clipboard.writeText) { var cw = navigator.clipboard.writeText.bind(navigator.clipboard); navigator.clipboard.writeText = function (t) { return cw(trText(t)); }; }
     if (navigator.share) { var sh = navigator.share.bind(navigator); navigator.share = function (d) { d = Object.assign({}, d); if (d.text) d.text = trText(d.text); if (d.title) d.title = trStr(d.title); return sh(d); }; }
   } catch (e) { /* 무시 */ }
-  var FLAV = {"floral": "花香", "flower": "花朵", "blossom": "鲜花", "tea": "茶香", "fruity": "果香", "berry": "莓果", "dried fruit": "干果", "citrus": "柑橘", "stone fruit": "核果", "tropical": "热带水果", "pome & grape": "梨果·葡萄", "melon & gourd": "瓜类", "sweet": "甜味", "sugar": "糖", "syrup & jam": "糖浆·果酱", "caramelized": "焦糖类", "vanilla": "香草", "candy": "糖果", "nutty": "坚果", "nut": "坚果", "nut & seed": "坚果·种子", "cocoa": "可可", "grain": "谷物", "spice": "香料", "vegetal": "植物", "green": "青草", "herb": "草本", "veggie": "蔬菜", "hay & leather": "干草·皮革", "negative": "负面", "sour/fermented": "酸臭·发酵", "musty/papery": "霉味·纸味", "earthy/woody": "泥土·木质", "chemical": "化学味", "burnt/smoky": "焦糊·烟熏", "bitter/harsh": "苦味·刺激", "acidity": "酸质", "quality": "酸质感", "type": "酸的种类", "body": "醇厚度", "mouthfeel": "口感", "ferment": "发酵", "spirit": "酒类", "dairy": "乳制品", "jasmine": "茉莉", "rose": "玫瑰", "chamomile": "洋甘菊", "lavender": "薰衣草", "violet": "紫罗兰", "orange blossom": "橙花", "elderflower": "接骨木花", "honeysuckle": "金银花", "magnolia": "木兰", "lilac": "紫丁香", "black tea": "红茶", "earl grey": "伯爵茶", "bergamot": "佛手柑", "hibiscus": "洛神花", "blueberry": "蓝莓", "blackberry": "黑莓", "raspberry": "覆盆子", "strawberry": "草莓", "cranberry": "蔓越莓", "blackcurrant": "黑醋栗", "raisin": "葡萄干", "prune": "西梅干", "date": "椰枣", "fig": "无花果", "jujube": "红枣", "orange": "橙子", "lemon": "柠檬", "lime": "青柠", "grapefruit": "葡萄柚", "tangerine": "橘子", "yuzu": "柚子", "mandarin": "柑", "tangerine orange": "橘橙", "peach": "桃子", "apricot": "杏", "plum": "李子", "cherry": "樱桃", "nectarine": "油桃", "persimmon": "柿子", "mango": "芒果", "pineapple": "菠萝", "passion fruit": "百香果", "lychee": "荔枝", "papaya": "木瓜", "kiwi": "猕猴桃", "banana": "香蕉", "coconut": "椰子", "apple": "苹果", "pear": "梨", "grape": "葡萄", "green grape": "青葡萄", "green apple": "青苹果", "pomegranate": "石榴", "melon": "甜瓜", "watermelon": "西瓜", "oriental melon": "香瓜", "brown sugar": "黑糖", "raw sugar": "黄糖", "white sugar": "白糖", "sugarcane": "甘蔗", "molasses": "糖蜜", "maple syrup": "枫糖浆", "honey": "蜂蜜", "syrup": "糖浆", "jam": "果酱", "caramel": "焦糖", "toffee": "太妃糖", "butterscotch": "奶油糖", "vanilla bean": "香草豆", "vanillin": "香草醛", "cream": "奶油", "marshmallow": "蛋白软糖", "cotton candy": "棉花糖", "almond": "杏仁", "hazelnut": "榛子", "peanut": "花生", "walnut": "核桃", "pecan": "碧根果", "cashew": "腰果", "chestnut": "栗子", "macadamia": "夏威夷果", "pistachio": "开心果", "sesame": "芝麻", "chocolate": "巧克力", "dark chocolate": "黑巧克力", "milk chocolate": "牛奶巧克力", "cacao nib": "可可碎粒", "malt": "麦芽", "cereal": "谷物片", "toast": "吐司", "bread": "面包", "oats": "燕麦", "cinnamon": "肉桂", "clove": "丁香", "nutmeg": "肉豆蔻", "black pepper": "黑胡椒", "cardamom": "豆蔻", "ginger": "姜", "anise": "茴香", "licorice": "甘草", "grassy": "青草味", "green bean": "青豆", "cucumber": "黄瓜", "bell pepper": "甜椒", "herbal": "草本味", "basil": "罗勒", "mint": "薄荷", "green tea": "绿茶", "tomato": "番茄", "pea": "豌豆", "carrot": "胡萝卜", "olive": "橄榄", "celery": "芹菜", "hay": "干草", "tobacco": "烟草", "leather": "皮革", "sour": "酸味", "vinegar": "醋", "fermented": "发酵味", "overripe": "过熟", "musty": "霉味", "moldy": "潮湿霉味", "papery": "纸味", "baggy": "麻袋味", "stale": "陈旧味", "earthy": "泥土味", "woody": "木质味", "dusty": "灰尘味", "dry": "干涩", "rubber": "橡胶味", "medicinal": "药味", "phenolic": "酚味", "rioy": "瑞奥味", "burnt": "焦味", "ashy": "灰烬味", "smoky": "烟熏味", "acrid": "辛辣刺鼻", "bitter": "苦味", "astringent": "涩感", "harsh": "粗糙刺激", "quaker": "未熟豆味", "bright": "明亮", "crisp": "爽脆", "juicy": "多汁", "sparkling": "清爽", "soft acidity": "柔和", "sharp": "尖锐", "flat": "平淡", "citric": "柠檬酸", "malic": "苹果酸", "tartaric": "酒石酸", "phosphoric": "磷酸", "lactic": "乳酸", "acetic": "醋酸", "light body": "轻盈", "medium body": "中等", "heavy body": "厚重", "full body": "饱满", "silky": "丝滑", "creamy": "奶油般", "velvety": "天鹅绒", "syrupy": "糖浆感", "oily": "油润", "watery": "水感", "drying": "干燥感", "winey": "酒香", "white wine": "白葡萄酒", "red wine": "红葡萄酒", "rum": "朗姆酒", "whiskey": "威士忌", "brandy": "白兰地", "yogurt": "酸奶", "cheese": "奶酪", "milk": "牛奶", "butter": "黄油", "thin": "单薄", "thick": "浓稠", "tea-like": "茶感", "buttery": "黄油感", "sticky": "黏稠", "round": "圆润", "juicy feel": "多汁感", "chalky": "粉感", "rough": "粗糙", "clean finish": "干净尾韵", "weight": "重量感", "feel": "口感", "smooth": "顺滑", "texture": "质地", "wine-like": "酒感"};
+  var FLAV = {"floral": "花香", "flower": "花朵", "blossom": "鲜花", "tea": "茶香", "fruity": "果香", "berry": "莓果", "dried fruit": "果干", "citrus": "柑橘", "stone fruit": "核果", "tropical": "热带水果", "pome & grape": "苹果·葡萄", "melon & gourd": "瓜类", "sweet": "甜味", "sugar": "糖类", "syrup & jam": "糖浆·果酱", "caramelized": "焦糖类", "vanilla": "香草", "candy": "糖果", "nutty": "坚果", "nut": "坚果", "nut & seed": "坚果·种子", "cocoa": "可可", "grain": "谷物", "spice": "香料", "vegetal": "植物", "green": "青草", "herb": "草本", "veggie": "蔬菜", "hay & leather": "干草·皮革", "negative": "负面", "sour/fermented": "酸臭·发酵", "musty/papery": "霉味·纸味", "earthy/woody": "泥土·木质", "chemical": "化学味", "burnt/smoky": "焦糊·烟熏", "bitter/harsh": "苦味·刺激", "acidity": "酸质", "quality": "酸质感", "type": "酸的种类", "body": "醇厚度", "mouthfeel": "口感", "ferment": "发酵", "spirit": "酒类", "dairy": "乳制品", "jasmine": "茉莉", "rose": "玫瑰", "chamomile": "洋甘菊", "lavender": "薰衣草", "violet": "紫罗兰", "orange blossom": "橙花", "elderflower": "接骨木花", "honeysuckle": "金银花", "magnolia": "木兰", "lilac": "紫丁香", "black tea": "红茶", "earl grey": "伯爵茶", "bergamot": "佛手柑", "hibiscus": "洛神花", "blueberry": "蓝莓", "blackberry": "黑莓", "raspberry": "覆盆子", "strawberry": "草莓", "cranberry": "蔓越莓", "blackcurrant": "黑醋栗", "raisin": "葡萄干", "prune": "西梅干", "date": "椰枣", "fig": "无花果", "jujube": "红枣", "orange": "橙子", "lemon": "柠檬", "lime": "青柠", "grapefruit": "葡萄柚", "tangerine": "橘子", "yuzu": "柚子", "mandarin": "蜜柑", "tangerine orange": "红橘", "peach": "桃子", "apricot": "杏", "plum": "李子", "cherry": "樱桃", "nectarine": "油桃", "persimmon": "柿子", "mango": "芒果", "pineapple": "菠萝", "passion fruit": "百香果", "lychee": "荔枝", "papaya": "木瓜", "kiwi": "猕猴桃", "banana": "香蕉", "coconut": "椰子", "apple": "苹果", "pear": "梨", "grape": "葡萄", "green grape": "青葡萄", "green apple": "青苹果", "pomegranate": "石榴", "melon": "甜瓜", "watermelon": "西瓜", "oriental melon": "香瓜", "brown sugar": "黑糖", "raw sugar": "黄糖", "white sugar": "白糖", "sugarcane": "甘蔗", "molasses": "糖蜜", "maple syrup": "枫糖浆", "honey": "蜂蜜", "syrup": "糖浆", "jam": "果酱", "caramel": "焦糖", "toffee": "太妃糖", "butterscotch": "奶油糖", "vanilla bean": "香草豆", "vanillin": "香草醛", "cream": "奶油", "marshmallow": "棉花软糖", "cotton candy": "棉花糖", "almond": "杏仁", "hazelnut": "榛子", "peanut": "花生", "walnut": "核桃", "pecan": "碧根果", "cashew": "腰果", "chestnut": "栗子", "macadamia": "夏威夷果", "pistachio": "开心果", "sesame": "芝麻", "chocolate": "巧克力", "dark chocolate": "黑巧克力", "milk chocolate": "牛奶巧克力", "cacao nib": "可可碎粒", "malt": "麦芽", "cereal": "谷物片", "toast": "吐司", "bread": "面包", "oats": "燕麦", "cinnamon": "肉桂", "clove": "丁香", "nutmeg": "肉豆蔻", "black pepper": "黑胡椒", "cardamom": "小豆蔻", "ginger": "姜", "anise": "茴香", "licorice": "甘草", "grassy": "青草味", "green bean": "青豆", "cucumber": "黄瓜", "bell pepper": "甜椒", "herbal": "草本味", "basil": "罗勒", "mint": "薄荷", "green tea": "绿茶", "tomato": "番茄", "pea": "豌豆", "carrot": "胡萝卜", "olive": "橄榄", "celery": "芹菜", "hay": "干草", "tobacco": "烟草", "leather": "皮革", "sour": "酸味", "vinegar": "醋", "fermented": "发酵味", "overripe": "过熟", "musty": "霉味", "moldy": "潮湿霉味", "papery": "纸味", "baggy": "麻袋味", "stale": "陈旧味", "earthy": "泥土味", "woody": "木质味", "dusty": "灰尘味", "dry": "干燥味", "rubber": "橡胶味", "medicinal": "药味", "phenolic": "酚味", "rioy": "里约味", "burnt": "焦味", "ashy": "灰烬味", "smoky": "烟熏味", "acrid": "辛辣刺鼻", "bitter": "苦味", "astringent": "涩感", "harsh": "粗糙刺激", "quaker": "未熟豆味", "bright": "明亮", "crisp": "爽脆", "juicy": "多汁", "sparkling": "清爽", "soft acidity": "柔和", "sharp": "尖锐", "flat": "平淡", "citric": "柠檬酸", "malic": "苹果酸", "tartaric": "酒石酸", "phosphoric": "磷酸", "lactic": "乳酸", "acetic": "醋酸", "light body": "轻盈", "medium body": "中等", "heavy body": "厚重", "full body": "饱满", "silky": "丝滑", "creamy": "奶油般", "velvety": "天鹅绒", "syrupy": "糖浆感", "oily": "油润", "watery": "水感", "drying": "干燥感", "winey": "酒香", "white wine": "白葡萄酒", "red wine": "红葡萄酒", "rum": "朗姆酒", "whiskey": "威士忌", "brandy": "白兰地", "yogurt": "酸奶", "cheese": "奶酪", "milk": "牛奶", "butter": "黄油", "thin": "单薄", "thick": "浓稠", "tea-like": "茶感", "buttery": "黄油感", "sticky": "黏稠", "round": "圆润", "juicy feel": "多汁感", "chalky": "粉感", "rough": "粗糙", "clean finish": "干净尾韵", "weight": "重量感", "feel": "口感", "smooth": "顺滑", "texture": "质地", "wine-like": "酒感"};
   var FLAVSCOPE = "#s-flavor, .fchip, .leaf, .bub, .fbub, #fsvg, #n-cat, .nchips, .nc, #i-notes, .oth, .cnote, .mxcard, .sum";
   function flavOf(n, v) {
     var k = v.trim().toLowerCase(); if (!k || !Object.prototype.hasOwnProperty.call(FLAV, k)) return null;
@@ -3323,14 +3324,14 @@
   }
   /* ───── 매뉴얼(관리자가 아닌 사람에게 main 자리에 보여요): 작은 창에서 한 단계씩 넘기며 보는 사용 안내 ───── */
   const mkRow=h=>'<div class="mk-r">'+h+'</div>';
-  const MAN=[
-    {t:"코드 만드는 법",d:"처음 한 번만 하면 돼요",steps:[
-      {h:"‘코드 신규 가입’을 눌러요",p:"첫 화면의 <b>참여 코드</b> 카드 아래쪽에 있는 버튼이에요.",
-        ill:mkRow('<span class="mk-in">코드 숫자 4자리</span><span class="mk-btn pri">참여</span>')+mkRow('<span style="flex:1"></span><span class="mk-btn mk-hl">코드 신규 가입</span>')},
-      {h:"닉네임과 숫자 4자리를 정해요",p:"닉네임은 다른 사람에게 보이는 이름이에요. 코드는 <b>나만 아는 숫자 4자리</b>로 정하고, 잊지 않게 기억해 두세요. 정한 뒤 <b>만들기</b>를 누르면 끝이에요.",
-        ill:mkRow('<span class="mk-in">닉네임</span><span class="mk-in" style="flex:none;width:92px">코드 4자리</span>')+mkRow('<span class="mk-btn pri mk-hl" style="flex:1;text-align:center">만들기</span><span class="mk-btn">닫기</span>')},
-      {h:"그날 커핑에 ‘참여’를 눌러요",p:"만들면 바로 내 이름으로 들어와 있어요. 오른쪽 <b>참여</b>를 누르면 오늘 참여자에 내 이름이 떠요. 다음부터는 코드 4자리만 넣고 참여를 누르면 돼요. 다른 사람 코드로 바꾸려면 ‘다른 코드로’를 눌러요.",
-        ill:mkRow('<span class="mk-card" style="flex:1">👤 내 닉네임 님</span><span class="mk-btn pri mk-hl">참여</span>')+mkRow('<span class="mk-pill">내 닉네임</span><span class="mk-pill">다른 참여자</span>')}
+  const MAN_KO=[
+    {t:"입장·이름 바꾸는 법",d:"가입 없이 바로 시작해요",steps:[
+      {h:"QR로 들어오면 자동으로 입장해요",p:"QR이나 링크로 열면 <b>가입 없이</b> 바로 ‘참가자 N’이라는 이름으로 입장해요. 입장한 순서대로 번호가 붙고, 같은 폰에서 다시 열어도 같은 사람이에요.",
+        ill:mkRow('<span class="mk-card" style="flex:1">👤 참가자 3 님</span><span class="mk-btn pri mk-hl">참여</span>')+mkRow('<span class="mk-pill">참가자 2</span><span class="mk-pill">참가자 3</span>')},
+      {h:"✎ 를 눌러 이름을 바꿔요",p:"이름 옆 <b>✎</b>를 누르고 새 이름을 쓴 뒤 <b>저장</b>을 눌러요. 이미 쓴 노트와 기록도 새 이름으로 따라가요. 화면 위쪽에서 <b>한국어 / 中文</b>을 바꿀 수 있어요.",
+        ill:mkRow('<span class="mk-card" style="flex:1">👤 참가자 3 님 <b>✎</b></span>')+mkRow('<span class="mk-in">새 이름 (12자까지)</span><span class="mk-btn pri mk-hl">저장</span>')},
+      {h:"오늘 커핑에 참여해요",p:"입장하면 오늘 참여자에 내 이름이 자동으로 떠요. 빠지고 싶으면 <b>참여 취소</b>, 다시 하려면 <b>참여</b>를 눌러요.",
+        ill:mkRow('<span class="mk-pill">내 이름</span><span class="mk-pill">다른 참여자</span>')+mkRow('<span style="flex:1"></span><span class="mk-btn">참여 취소</span>')}
     ]},
     {t:"품목에 점수·판정·메모 입력",d:"품목 하나씩 들어가서 채워요",steps:[
       {h:"커핑 품목을 눌러요",p:"목록에서 지금 커핑할 품목을 누르면 입력 화면이 열려요. 위쪽 품목 이름을 누르면 다른 품목으로 바로 바꿀 수 있어요.",
@@ -3361,6 +3362,45 @@
         ill:mkRow('<span class="mk-btn mk-hl">가로로 보기</span><span class="mk-btn">⛶ 확장</span>')}
     ]}
   ];
+  const MAN_ZH=[
+    {t:"进入与修改昵称",d:"无需注册，扫码即可开始",steps:[
+      {h:"扫码后自动进入",p:"用二维码或链接打开后，<b>无需注册</b>，系统会按进入顺序自动分配“参与者 N”这样的名字。同一部手机再次打开仍是同一个人。",
+        ill:mkRow('<span class="mk-card" style="flex:1">👤 参与者 3</span><span class="mk-btn pri mk-hl">参加</span>')+mkRow('<span class="mk-pill">参与者 2</span><span class="mk-pill">参与者 3</span>')},
+      {h:"点 ✎ 修改昵称",p:"点昵称旁边的 <b>✎</b>，输入新昵称后点 <b>保存</b>。已经写好的笔记和记录也会一起改成新昵称。页面上方可以切换 <b>한국어 / 中文</b>。",
+        ill:mkRow('<span class="mk-card" style="flex:1">👤 参与者 3 <b>✎</b></span>')+mkRow('<span class="mk-in">新昵称（最多12个字）</span><span class="mk-btn pri mk-hl">保存</span>')},
+      {h:"加入今天的杯测",p:"进入后会自动出现在今天的参加者里。想退出就点 <b>取消参加</b>，想重新加入再点 <b>参加</b>。",
+        ill:mkRow('<span class="mk-pill">我的昵称</span><span class="mk-pill">其他参与者</span>')+mkRow('<span style="flex:1"></span><span class="mk-btn">取消参加</span>')}
+    ]},
+    {t:"为样品填写评分·风味·备注",d:"逐个样品进入填写",steps:[
+      {h:"点击杯测样品",p:"在列表里点击现在要杯测的样品，就会打开填写页面。点页面上方的样品名称，可以直接切换到其他样品。",
+        ill:mkRow('<span class="mk-card mk-hl" style="flex:1">1. Brazil Santos NY2<small>点击进入</small></span>')+mkRow('<span class="mk-card" style="flex:1;opacity:.6">2. Ethiopia Guji</span>')},
+      {h:"选择风味笔记",p:"点 <b>风味笔记</b> 卡片会打开风味轮。按“大类 → 具体风味”的顺序点选感受到的风味，然后点 <b>完成</b>，可以选多个。风味轮里没有的，可以用“＋ 我的风味（仅限一次）”自己创建。",
+        ill:'<div class="mk-card mk-hl">风味笔记 ›<small>点击选择风味笔记</small></div>'+mkRow('<span class="mk-pill">蓝莓</span><span class="mk-pill">茉莉</span><span class="mk-pill">焦糖</span>')},
+      {h:"展开杯测评分",p:"点 <b>杯测评分 ▾</b> 展开。最上面的 <b>基准分</b>（默认7分）是所有未单独修改项目的起始分，改基准分会让这些项目一起变化。",
+        ill:mkRow('<span class="mk-card mk-hl" style="flex:1">杯测评分 ▾</span>')+mkRow('<span class="mk-card" style="flex:1">基准分<small>各项的起始分</small></span><span class="mk-btn">7.00</span>')},
+      {h:"点项目，转动打分",p:"从 Fragrance 到 Overall，点项目会出现数字滚轮。<b>上下滑动</b>选择后点 <b>选择</b>（以0.25分为单位）。与基准分相同就会恢复原样。<b>Uniformity·Clean Cup·Sweetness</b> 从10分开始，以2分为单位。最上面的 <b>Total</b> 是总分。",
+        ill:'<div class="mk-g"><span>Fragrance<em>7.00</em></span><span>Flavor<em class="mk-hl" style="border-radius:6px">7.50</em></span><span>Aftertaste<em>7.00</em></span><span>Acidity<em>7.25</em></span><span>Body<em>7.00</em></span></div>'},
+      {h:"有缺陷就点杯子",p:"点杯子编号，可以选择该杯里感受到的缺陷（可多选）。默认是 <b>Taint 每杯 −2分</b>，勾选 <b>Fault</b> 则每杯 −4分。杯数默认3个，可用 −/＋ 调整为1~5个。没有缺陷就不用管。",
+        ill:mkRow('<span style="font-size:12px;font-weight:700;color:var(--ink-2)">杯</span><span class="mk-cups"><span>1</span><span class="mk-hl">2</span><span>3</span></span>')+'<div class="mk-card" style="text-align:center">扣分 −2 <small>第2杯：Taint</small></div>'},
+      {h:"填写备注",p:"在 <b>备注</b> 栏里自由填写风味或缺陷。<b>判定</b>只在管理员画面显示，普通参与者只需填写分数和备注。在下面的“杯测师笔记”里还能看到其他人留下的笔记。",
+        ill:'<div class="mk-in mk-hl" style="min-height:50px;white-space:normal">像蓝莓一样的酸质，尾韵干净…</div>'},
+      {h:"保存就完成了",p:"修改后会<b>每10秒自动保存</b>，上方会显示“自动保存”的时间。填完后点下方 <b>保存</b> 回到列表，再用同样的方法填写下一个样品。",
+        ill:mkRow('<span class="mk-btn pri mk-hl" style="flex:1;text-align:center;padding:10px 0">保存</span>')}
+    ]},
+    {t:"查看杯测结果",d:"汇总分数进行比较",steps:[
+      {h:"点“杯测结果”",p:"点列表页最上方的 <b>杯测结果</b> 按钮，就会打开当天的结果页面。想换日期，点左上角的日期（☕）。",
+        ill:mkRow('<span class="mk-pill">☕ 11.10 ▾</span><span class="mk-btn mk-hl">杯测结果</span>')},
+      {h:"有三种表格",p:"<b>个人评分对比表</b>：选一个人，一眼看到各样品的分数。<b>按人员评分对比表</b>：每个样品汇总所有人的分数、笔记和备注。<b>结果备忘</b>：用印章和文字自己记录的专属表格。点标题可展开/收起。",
+        ill:'<div class="mk-card mk-hl">个人评分对比表 ▾</div><div class="mk-card">按人员评分对比表 ▾</div><div class="mk-card">结果备忘 ▾</div>'},
+      {h:"自己的分数和笔记可以在这里修改",p:"在个人评分对比表里点<b>带下划线的我的分数</b>，可以直接用滚轮修改。在按人员评分对比表里点自己的笔记/备注即可修改。别人的内容不能修改。",
+        ill:'<div class="mk-g"><span>Fragrance<em>7.00</em></span><span>Flavor<em style="text-decoration:underline">7.50</em></span><span>Aftertaste<em>7.00</em></span><span>Acidity<em>7.25</em></span><span>总分<em>88.5</em></span></div>'},
+      {h:"结果备忘只属于自己",p:"展开 <b>结果备忘</b>，每个样品都有一格。选择上方的 <b>✏️ 画笔 · T 文字 · 印章 · 橡皮</b>，用手指书写。单指书写，<b>双指移动·缩放</b>。写完会很快自动保存，并且<b>只以你的昵称保存</b>，不会和别人的备忘混在一起。",
+        ill:mkRow('<span class="mk-btn">✏️ 画笔</span><span class="mk-btn">T 文字</span><span class="mk-btn mk-hl">印章</span><span class="mk-btn">橡皮</span>')},
+      {h:"想看得更宽时",p:"点上方的 <b>横屏查看</b>，可以像把手机横过来一样宽屏查看表格。结果备忘点 <b>放大</b> 可全屏显示，关闭时点 ✕ 关闭。",
+        ill:mkRow('<span class="mk-btn mk-hl">横屏查看</span><span class="mk-btn">⛶ 放大</span>')}
+    ]}
+  ];
+  const MAN=(window.__LANG__==="zh")?MAN_ZH:MAN_KO;
   const MS={cat:-1,i:0};
   function renderMan(){
     const sh=$("#man-sheet"); let h;
@@ -3392,8 +3432,7 @@
   function syncMainBtn(){
     const sb=$("#r-sheet"); if(sb) sb.hidden=!isAdmin;
     const b=$("#r-main"); if(!b) return;
-    b.hidden=true; return;
-    if(!isAdmin){ b.classList.remove("on","other"); b.textContent="매뉴얼"; b.title="처음이라면 눌러보세요 · 사용 방법을 하나씩 알려드려요"; return; }
+    b.hidden=false; b.classList.remove("on","other"); b.textContent="매뉴얼"; b.title="처음이라면 눌러보세요 · 사용 방법을 하나씩 알려드려요"; return;
     const has=MAIN.date===S.date&&!!MAIN.main, mine=has&&lc(MAIN.main)===lc(me());
     b.classList.toggle("on",mine); b.classList.toggle("other",has&&!mine);
     b.textContent=mine?"✓ main":(has?"main · "+MAIN.main:"main");
@@ -3405,7 +3444,7 @@
     call("getCuppingMainAdmin",d).then(r=>{ if(d!==S.date) return; MAIN.date=d; MAIN.main=(r&&r.main)||""; syncMainBtn(); }).catch(()=>{ MAIN.at=0; });
   }
   $("#r-main").addEventListener("click",function(){
-    if(!isAdmin){ openMan(); return; }
+    openMan(); return;
     if(!S.date) return;
     const has=MAIN.date===S.date&&!!MAIN.main, mine=has&&lc(MAIN.main)===lc(me()), nl=String.fromCharCode(10);
     if(mine){ if(!window.confirm("main 지정을 해제할까요?"+nl+"(엑셀에 기록될 관리자가 없어져요)")) return; }

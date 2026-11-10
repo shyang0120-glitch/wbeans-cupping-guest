@@ -913,6 +913,9 @@
   .band{position:absolute;left:0;right:0;top:88px;height:44px;border-radius:14px;background:var(--accent-soft);z-index:0}
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#101a3a;color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:40;max-width:90vw;text-align:center}
   .toast.show{opacity:1}
+  .leaf{flex-direction:column!important;line-height:1.05}
+  .leaf .kosub{font-style:normal;font-size:6px;opacity:.85;font-weight:500;margin-top:1px;white-space:nowrap;letter-spacing:0}
+  .bub .kc,.fbub .kc{display:block;font-style:normal;font-size:7px;font-weight:500;opacity:.9;line-height:1;margin-top:2px;white-space:nowrap}
 </style>
 <script>try{var __L=localStorage.getItem("wbeans_lang");window.__LANG__=(__L==="zh"||__L==="ko")?__L:(/^zh/i.test(navigator.language||"")?"zh":"ko");}catch(e){window.__LANG__="ko";}</script>
 <script>
@@ -1111,7 +1114,7 @@
   var ATTRS = ["placeholder", "title", "aria-label", "alt"];
   var SKIPT = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1 };
   function doNode(n) {
-    if (n.nodeType === 3) { var p = n.parentNode; if (p && SKIPT[p.nodeName]) return; var v = n.nodeValue; if (v && HANGUL.test(v)) { var t = trStr(v); if (t !== v) n.nodeValue = t; } else if (v && /[A-Za-z]/.test(v)) { var a = ASCII_EX[v.trim()] !== undefined ? v.replace(v.trim(), ASCII_EX[v.trim()]) : null; if (a !== null) { n.nodeValue = a; return; } var f = flavOf(n, v); if (f !== null && f !== v) n.nodeValue = f; } return; }
+    if (n.nodeType === 3) { var p = n.parentNode; if (p && (SKIPT[p.nodeName] || (p.classList && p.classList.contains("kosub")))) return; var v = n.nodeValue; if (v && HANGUL.test(v)) { var t = trStr(v); if (t !== v) n.nodeValue = t; } else if (v && /[A-Za-z]/.test(v)) { var a = ASCII_EX[v.trim()] !== undefined ? v.replace(v.trim(), ASCII_EX[v.trim()]) : null; if (a !== null) { n.nodeValue = a; return; } var f = flavOf(n, v); if (f !== null && f !== v) n.nodeValue = f; } return; }
     if (n.nodeType !== 1 || SKIPT[n.nodeName]) { if (n.nodeType === 1 && n.nodeName === "TEXTAREA") ATTRS.forEach(function (a) { fixAttr(n, a); }); return; }
     ATTRS.forEach(function (a) { fixAttr(n, a); });
     for (var c = n.firstChild; c; c = c.nextSibling) doNode(c);
@@ -1360,6 +1363,7 @@
 (function(){
   /* ───────── 상수 ───────── */
   const ATTRS=[["fragrance","Fragrance / Aroma"],["flavor","Flavor"],["aftertaste","Aftertaste"],["acidity","Acidity"],["body","Body"],["balance","Balance"],["uniformity","Uniformity"],["cleancup","Clean Cup"],["sweetness","Sweetness"],["overall","Overall"]];
+  const KOSUB=true;      /* 노트 아이콘 아래 한글 작은 글씨(한국어·중국어 화면 모두) */
   const VERDICTS=["좋음","보통","주의","심각","PSS승인","Reject"];
   const BASE_MIN=7, BASE_WHEEL_MIN=6, ATTR_MIN=5, SCORE_MAX=10, STEP=0.25;   // 기준 점수 기본은 7, 휠에서는 6까지 내릴 수 있음
   const FIXED10=["uniformity","cleancup","sweetness"];     // 기준 점수의 영향을 받지 않고 10점에서 시작, 2점 단위
@@ -2197,8 +2201,8 @@
     const [x,y]=pt(g,r,a);
     const rot=g.sgn>0?a:-a;
     return '<g transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate('+rot.toFixed(1)+')" class="'+(cls||"")+'">'
-      +'<text text-anchor="middle" dominant-baseline="central" font-size="'+fs.toFixed(1)+'" y="'+(-fs*0.52).toFixed(1)+'" fill="#fff">'+esc(en)+'</text>'
-      +(ko?'<text text-anchor="middle" dominant-baseline="central" font-size="'+(fs*0.86).toFixed(1)+'" y="'+(fs*0.62).toFixed(1)+'" fill="#fff" opacity=".85">'+esc(ko)+'</text>':"")+'</g>';
+      +'<text text-anchor="middle" dominant-baseline="central" font-size="'+fs.toFixed(1)+'" y="'+(KOSUB&&ko?-fs*0.3:-fs*0.52).toFixed(1)+'" fill="#fff">'+esc(en)+'</text>'
+      +(KOSUB&&ko?'<text class="kosub" text-anchor="middle" dominant-baseline="central" font-size="6.5" y="'+(fs*0.55).toFixed(1)+'" fill="#fff" opacity=".9">'+esc(ko)+'</text>':"")+'</g>';
   }
 
   function guideText(){
@@ -2228,7 +2232,7 @@
       +'--kf:'+Math.max(9,Math.min(Math.round(d0*0.15),Math.floor((d0/2-10)/(emOf(en)*1.05))))+'px;--ef:'+(d0<80?0:10.5)+'px;'
       +(p.side==="L"?'left:'+(-off0)+'px;padding-left:'+off0+'px;':'right:'+(-off0)+'px;padding-right:'+off0+'px;')+'background:'+bg+'">'
       +(cnt?'<span class="cnt">'+cnt+'</span>':'')
-      +'<span class="ko">'+en+'</span></button>';
+      +'<span class="ko">'+en+'</span>'+(KOSUB&&ko?'<i class="kosub kc">'+esc(ko)+'</i>':'')+'</button>';
     ensureFloat(w,h);
     const fD=floatDia(w);
     $("#bubs").innerHTML=CATS.map((c,i)=>c.wheel?"":bubHTML(POS[i],i===open?' act':'','data-cat="'+i+'"',c.c,c.ko,c.en,catCountTags(i))).join("")
@@ -2236,7 +2240,7 @@
         const c=CATS[f.id], cnt=catCountTags(f.id), x=floatX(w,h,f), y=floatY(w,h,f);
         return '<button class="fbub" data-cat="'+f.id+'" style="left:'+x.toFixed(1)+'px;top:'+y.toFixed(1)+'px;width:'+fD+'px;height:'+fD+'px;background:'+c.c
           +';animation-delay:'+(-k*0.9).toFixed(1)+'s;animation-duration:'+(3.6+k*0.5).toFixed(1)+'s">'
-          +(cnt?'<span class="cnt">'+cnt+'</span>':'')+'<span class="ko">'+c.en+'</span></button>';
+          +(cnt?'<span class="cnt">'+cnt+'</span>':'')+'<span class="ko">'+c.en+'</span>'+(KOSUB&&c.ko?'<i class="kosub kc">'+esc(c.ko)+'</i>':'')+'</button>';
       }).join("");
 
     let svg="", lab="";
@@ -2255,12 +2259,12 @@
         const alpha=isSel?0.62:(fst.grp>=0?0.16:(gi%2?0.38:0.28))+(picked&&!isSel?0.12:0);
         svg+='<path class="gs" data-grp="'+gi+'" d="'+ringPath(g,RA[0],RA[1],a0+0.4,a1-0.4)+'" fill="'+rgba(c.c,alpha)+'" stroke="rgba(255,255,255,.18)" stroke-width="1"/>';
         const arc=(a1-a0)*RAD*((RA[0]+RA[1])/2);
-        svg+=sliceLabel(g,(RA[0]+RA[1])/2,am,gr.en,"",14,RA[1]-RA[0]-10,arc,"gl");
+        svg+=sliceLabel(g,(RA[0]+RA[1])/2,am,gr.en,gr.ko,14,RA[1]-RA[0]-10,arc,"gl");
       });
       if(fst.grp>=0){
         const gr=c.groups[fst.grp];
         const a0=g.lo+span*fst.grp/m, a1=g.lo+span*(fst.grp+1)/m, am=(a0+a1)/2;
-        curList=[[gr.en,gr.en]].concat(orderedNotes(gr));        // 중분류는 소분류 맨 앞 아이콘으로
+        curList=[[gr.en,gr.ko]].concat(orderedNotes(gr));        // 중분류는 소분류 맨 앞 아이콘으로
         const mine=Object.keys(D.cx||{}).filter(k=>D.cx[k]===open&&hasTag(k)).map(k=>[k,k,"mine"]);   // 이 계열에서 내가 만든 1회용 노트
         const shown=curList.concat(mine);
         const L=layoutLeaves(g,shown.concat([["＋","＋"]]),am);     // 마지막 자리는 '+' 알약
@@ -2268,7 +2272,7 @@
         shown.forEach((nt,k)=>{
           const q=L.pos[k]; if(!q) return;
           const sel=hasTag(nt[0]), isMine=nt[2]==="mine";
-          lab+='<button class="leaf'+(sel?' sel':'')+(same?' show':'')+'" '+(isMine?'data-x="'+esc(nt[0])+'"':'data-n="'+k+'"')+' style="left:'+q[0].toFixed(1)+'px;top:'+q[1].toFixed(1)+'px;width:'+L.PW+'px;height:'+L.PH+'px;--c:'+c.c+';transition-delay:'+(same?0:k*18)+'ms">'+esc(nt[0])+'</button>';
+          lab+='<button class="leaf'+(sel?' sel':'')+(same?' show':'')+'" '+(isMine?'data-x="'+esc(nt[0])+'"':'data-n="'+k+'"')+' style="left:'+q[0].toFixed(1)+'px;top:'+q[1].toFixed(1)+'px;width:'+L.PW+'px;height:'+L.PH+'px;--c:'+c.c+';transition-delay:'+(same?0:k*18)+'ms">'+esc(nt[0])+(KOSUB&&nt[1]&&nt[1]!==nt[0]&&nt[2]!=="custom"?'<i class="kosub">'+esc(nt[1])+'</i>':'')+'</button>';
         });
         const qp=L.pos[shown.length];
         if(qp) lab+='<button class="leaf plusp'+(same?' show':'')+'" data-addn="1" aria-label="노트 추가" style="left:'+qp[0].toFixed(1)+'px;top:'+qp[1].toFixed(1)+'px;width:'+Math.min(L.PW,64)+'px;height:'+L.PH+'px;--c:'+c.c+'">＋</button>';
@@ -2318,17 +2322,17 @@
       const th=R1-R0-8, en=gr.en;
       const fs=clampN(Math.min(11.5,th*0.95/Math.max(emOf(en),1)),8,12.5);
       const [lx,ly]=P((R0+3+R1)/2,n>1?am:-90);
-      svg+='<g class="gl"><text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-size="'+fs.toFixed(1)+'" fill="#fff">'+esc(en)+'</text></g>';
+      svg+='<g class="gl"><text x="'+lx.toFixed(1)+'" y="'+(ly-(KOSUB&&gr.ko?3:0)).toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-size="'+fs.toFixed(1)+'" fill="#fff">'+esc(en)+'</text>'+(KOSUB&&gr.ko?'<text class="kosub" x="'+lx.toFixed(1)+'" y="'+(ly+fs*0.5+4).toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-size="6.5" fill="#fff" opacity=".9">'+esc(gr.ko)+'</text>':'')+'</g>';
     });
     // 가운데 원: 계열 전체(중복 선택)
     const on=hasTag(c.en);
     svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R0+'" fill="'+c.c+'" stroke="rgba(255,255,255,.5)" stroke-width="2" style="pointer-events:none"/>'
-      +'<text x="'+cx+'" y="'+cy+'" text-anchor="middle" dominant-baseline="central" font-size="13" style="fill:#fff;font-weight:700">'+esc(c.en)+'</text>';
+      +'<text x="'+cx+'" y="'+(cy-(KOSUB&&c.ko?4:0))+'" text-anchor="middle" dominant-baseline="central" font-size="13" style="fill:#fff;font-weight:700">'+esc(c.en)+'</text>'+(KOSUB&&c.ko?'<text class="kosub" x="'+cx+'" y="'+(cy+10)+'" text-anchor="middle" dominant-baseline="central" font-size="6.5" style="fill:#fff;opacity:.9">'+esc(c.ko)+'</text>':'');
     svg+='</g>';
     // 선택한 그룹의 노트: 바깥 원 위에 균등 간격
     if(fst.grp>=0){
       const gr=c.groups[fst.grp];
-      curList=[[gr.en,gr.en]].concat(orderedNotes(gr));        // 중분류는 소분류 맨 앞 아이콘으로
+      curList=[[gr.en,gr.ko]].concat(orderedNotes(gr));        // 중분류는 소분류 맨 앞 아이콘으로
       const mine=Object.keys(D.cx||{}).filter(k=>D.cx[k]===ci&&hasTag(k)).map(k=>[k,k,"mine"]);
       const shown=curList.concat(mine), N=shown.length+1;
       const many=N>9;                                   // 노트가 많은 그룹(예: 촉감)은 작게 하고 안쪽/바깥쪽 두 고리에 번갈아 놓음
@@ -2341,7 +2345,7 @@
           lab+='<button class="leaf plusp'+(same?' show':'')+'" data-addn="1" aria-label="노트 추가" style="left:'+px.toFixed(1)+'px;top:'+py.toFixed(1)+'px;width:'+Math.min(PW,46)+'px;height:'+PH+'px;--c:'+c.c+'">＋</button>';
         } else {
           const nt=shown[k], sel=hasTag(nt[0]), isMine=nt[2]==="mine";
-          lab+='<button class="leaf'+(sel?' sel':'')+(same?' show':'')+'" '+(isMine?'data-x="'+esc(nt[0])+'"':'data-n="'+k+'"')+' style="left:'+px.toFixed(1)+'px;top:'+py.toFixed(1)+'px;width:'+(many?Math.min(PW,Math.max(36,Math.ceil(txtW(nt[0],9))+10)):PW)+'px;height:'+PH+'px;font-size:'+(many?9:10.5)+'px;--c:'+c.c+';transition-delay:'+(same?0:k*18)+'ms">'+esc(nt[0])+'</button>';
+          lab+='<button class="leaf'+(sel?' sel':'')+(same?' show':'')+'" '+(isMine?'data-x="'+esc(nt[0])+'"':'data-n="'+k+'"')+' style="left:'+px.toFixed(1)+'px;top:'+py.toFixed(1)+'px;width:'+(many?Math.min(PW,Math.max(36,Math.ceil(txtW(nt[0],9))+10)):PW)+'px;height:'+PH+'px;font-size:'+(many?9:10.5)+'px;--c:'+c.c+';transition-delay:'+(same?0:k*18)+'ms">'+esc(nt[0])+(KOSUB&&nt[1]&&nt[1]!==nt[0]&&nt[2]!=="custom"?'<i class="kosub">'+esc(nt[1])+'</i>':'')+'</button>';
         }
       }
     }
